@@ -1,5 +1,4 @@
 # movie_app
-----------
 This project is an online movie player which is developed using Flutter.
 
 ## API
