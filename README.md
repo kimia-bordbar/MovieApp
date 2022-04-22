@@ -9,4 +9,3 @@ This application made with GetX and get_storage, where you can change the theme 
 ![image](https://user-images.githubusercontent.com/99091993/164707179-53f924d0-4486-4a37-a3aa-c69d376f7b3a.png)
 ### Dark Theme
 ![image](https://user-images.githubusercontent.com/99091993/164708491-e2752c4e-16a6-49cb-8a83-a3664e477ba0.png)
-
