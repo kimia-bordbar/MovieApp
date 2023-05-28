@@ -1,8 +1,8 @@
-class Categorys {
+class Category {
   String id;
   String title;
   String icon;
   String description;
 
-  Categorys(this.id, this.title, this.icon, this.description);
+  Category(this.id, this.title, this.icon, this.description);
 }

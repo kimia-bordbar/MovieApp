@@ -12,7 +12,7 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  Future<List<Categorys>> getCategories = WebserivceCaller.getCategoryList();
+  Future<List<Category>> getCategories = WebserivceCaller.getCategoryList();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: FutureBuilder<List<Categorys>>(
+          child: FutureBuilder<List<Category>>(
             future: getCategories,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -29,13 +29,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       child: CategoryListItemView(
-                        categorys: snapshot.data![index],
+                        category: snapshot.data![index],
                       ),
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => CategoryVideosScreen(
-                              categorys: snapshot.data![index],
+                              category: snapshot.data![index],
                             ),
                           ),
                         );

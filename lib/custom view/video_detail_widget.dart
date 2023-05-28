@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoDetailWidget extends StatefulWidget {
-  final VideoPlayerController videoPlayerController;
+  final String link;
   final String title;
   final String description;
   final String view;
 
   const VideoDetailWidget({
     Key? key,
-    required this.videoPlayerController,
+    required this.link,
     required this.title,
     required this.view,
     required this.description,
@@ -21,29 +21,48 @@ class VideoDetailWidget extends StatefulWidget {
 }
 
 class _VideoDetailWidgetState extends State<VideoDetailWidget> {
-  late ChewieController _chewieController;
+  ChewieController? _chewieController;
+  late VideoPlayerController _videoPlayerController;
 
   @override
   void initState() {
     super.initState();
-    _chewieController = ChewieController(
-        videoPlayerController: widget.videoPlayerController,
-        aspectRatio: 16 / 9,
-        //show the first frame of video not just black frame
-        autoInitialize: true,
-        looping: true,
-        // fullScreenByDefault: true,
-        allowMuting: true,
+    initializePlayer();
+  }
 
-        // allowFullScreen: true,
-        errorBuilder: (context, errorMessage) {
-          return Center(
-            child: Text(
-              errorMessage,
-              style: const TextStyle(color: Colors.white),
-            ),
-          );
-        });
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    _chewieController?.dispose();
+    super.dispose();
+  }
+
+  Future<void> initializePlayer() async {
+    _videoPlayerController = VideoPlayerController.network(widget.link);
+    await _videoPlayerController.initialize();
+    _createChewieController();
+    setState(() {});
+  }
+
+  void _createChewieController() {
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController,
+      aspectRatio: 16 / 9,
+      //show the first frame of video not just black frame
+      autoInitialize: true,
+      looping: true,
+      // fullScreenByDefault: true,
+      allowMuting: true,
+      // allowFullScreen: true,
+      errorBuilder: (context, errorMessage) {
+        return Center(
+          child: Text(
+            errorMessage,
+            style: const TextStyle(color: Colors.white),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -51,10 +70,16 @@ class _VideoDetailWidgetState extends State<VideoDetailWidget> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
-        
         children: [
-          Chewie(
-            controller: _chewieController,
+          Center(
+            child: _chewieController != null &&
+                    _chewieController!.videoPlayerController.value.isInitialized
+                ? Chewie(
+                    controller: _chewieController!,
+                  )
+                : const CircularProgressIndicator(
+                    color: Colors.deepOrange,
+                  ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,12 +129,5 @@ class _VideoDetailWidgetState extends State<VideoDetailWidget> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    widget.videoPlayerController.dispose();
-    _chewieController.dispose();
   }
 }

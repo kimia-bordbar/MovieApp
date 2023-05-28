@@ -3,12 +3,11 @@ import 'package:movie_app/api/webservice_caller.dart';
 import 'package:movie_app/custom%20view/video_detail_widget.dart';
 import 'package:movie_app/models/category_model.dart';
 import 'package:movie_app/models/video_model.dart';
-import 'package:video_player/video_player.dart';
 
 class CategoryVideosScreen extends StatefulWidget {
-  final Categorys categorys;
+  final Category category;
 
-  const CategoryVideosScreen({Key? key, required this.categorys})
+  const CategoryVideosScreen({Key? key, required this.category})
       : super(key: key);
 
   @override
@@ -25,7 +24,7 @@ class _CategoryVideosScreenState extends State<CategoryVideosScreen> {
       // backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          widget.categorys.title,
+          widget.category.title,
           style: Theme.of(context).textTheme.headline6,
         ),
         centerTitle: true,
@@ -43,14 +42,15 @@ class _CategoryVideosScreenState extends State<CategoryVideosScreen> {
                   // physics: const PageScrollPhysics(),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    if (snapshot.data![index].catId == widget.categorys.id) {
-                      return VideoDetailWidget(
-                        videoPlayerController: VideoPlayerController.network(
-                          snapshot.data![index].link,
+                    if (snapshot.data![index].catId == widget.category.id) {
+                      return AspectRatio(
+                        aspectRatio: 16/16,
+                        child: VideoDetailWidget(
+                          link: snapshot.data![index].link,
+                          title: snapshot.data![index].title,
+                          description: snapshot.data![index].description,
+                          view: snapshot.data![index].view,
                         ),
-                        title: snapshot.data![index].title,
-                        description: snapshot.data![index].description,
-                        view: snapshot.data![index].view,
                       );
                     } else {
                       return Container();

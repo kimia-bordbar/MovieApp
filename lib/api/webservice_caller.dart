@@ -17,8 +17,8 @@ class WebserivceCaller {
     return videoList;
   }
 
-  static Future<List<Categorys>> getCategoryList() async {
-    List<Categorys> categoryList = [];
+  static Future<List<Category>> getCategoryList() async {
+    List<Category> categoryList = [];
     String url = 'http://androidsupport.ir/pack/aparat/getCategory.php';
     Response response = await http.get(Uri.parse(url));
 

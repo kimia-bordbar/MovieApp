@@ -26,8 +26,8 @@ class JsonParser {
     return videoList;
   }
 
-  static List<Categorys> getCategory(Response response) {
-    List<Categorys> categoryList = [];
+  static List<Category> getCategory(Response response) {
+    List<Category> categoryList = [];
     List<dynamic> body = json.decode(response.body);
     for (var element in body) {
       Map item = element;
@@ -35,7 +35,7 @@ class JsonParser {
       String title = item['title'];
       String icon = item['icon'];
       String description = item['description'];
-      categoryList.add(Categorys(id,title,icon,description));
+      categoryList.add(Category(id,title,icon,description));
     }
     return categoryList;
   }
